@@ -255,4 +255,34 @@ const SNAGS = [
  why:'Answer engines cannot cite what they cannot fetch. Many sites block these agents by accident; this one does not.',
  evidence:'GPTBot, ClaudeBot, PerplexityBot, Google-Extended, OAI-SearchBot and Applebot-Extended all permitted. No exclusions in robots.txt.',
  fix:'No action. Keep it this way.'},
+/* ── added 24 Sep 2026 from the seo-aeo-geo skill pass ──────────────────── */
+{section:'aeo', group:'Trust and citation', ref:'TRU-05', src:'registry', status:'warn', severity:'Critical',
+ title:'The “10,000 reviews” figure matches the “10,000 homeowners” figure',
+ why:'The brand fact registry records “10,000+ homeowners served across India”. The page schema declares a reviewCount of exactly 10000. These may be the same number used twice — a customer count published as a review count. Flagged for human review, not corrected: either side could be the stale one.',
+ evidence:'Page schema: reviewCount 10000, ratingValue 4.7. Fact registry: “10,000+ homeowners served across India”, and separately flags an unresolved conflict between 9,000 / 10,000 / 10,142 homes built.',
+ fix:'Have a named person confirm what 10,000 counts — customers or reviews — before anything is republished. Settle the homes-built figure at the same time; the registry already lists it as unresolved.'},
+
+{section:'aeo', group:'Entity and knowledge graph', ref:'ENT-05', src:'live', status:'pass', severity:'',
+ title:'Local business details are complete and machine-readable',
+ why:'Worth stating because it is the part of the entity that is right. Answer engines asked “where are they based, can I call them” have a clean structured answer today.',
+ evidence:'Homepage declares LocalBusiness with PostalAddress, GeoCoordinates, ContactPoint, OpeningHoursSpecification and a phone number (+91 7505205205). Document language set to en.',
+ fix:'No action beyond de-duplicating the node (ENT-01). Add a contact email — none is exposed on the homepage.'},
+
+{section:'aeo', group:'Answer extraction', ref:'ANS-06', src:'live', status:'pass', severity:'',
+ title:'HowTo and FAQPage markup already exist',
+ why:'The markup an answer engine wants is present. That is what makes the rendering failure above so costly — the structure is built and then undermined by the styling.',
+ evidence:'Homepage schema includes HowTo with HowToStep, FAQPage with Question and Answer nodes, Service, Offer and Person types.',
+ fix:'No new markup needed. Make the declared content render (ANS-01) and this becomes an asset rather than a policy risk.'},
+
+{section:'aeo', group:'Answer extraction', ref:'ANS-07', src:'live', status:'fail', severity:'Low',
+ title:'No Speakable markup for voice answers',
+ why:'Speakable tells a voice assistant which sentences to read aloud. For a category where buyers ask questions hands-free on site visits, it is a cheap, uncontested signal.',
+ evidence:'No SpeakableSpecification on any template tested.',
+ fix:'Add SpeakableSpecification pointing at the answer paragraph on priority pages — after ANS-02 gives those pages an answer paragraph to point at.'},
+
+{section:'seo', group:'On-page signals', ref:'ONP-06', src:'live', status:'warn', severity:'Medium',
+ title:'No contact email exposed on the homepage',
+ why:'Phone and address are present, email is not. Answer engines and buyers both look for a full contact set, and it is one of the cheapest trust signals available.',
+ evidence:'One tel: link (+91 7505205205) and a PostalAddress in schema. Zero mailto: links on the homepage.',
+ fix:'Expose a monitored contact address and add it to the ContactPoint node.'},
 ];

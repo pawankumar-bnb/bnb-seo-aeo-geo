@@ -309,3 +309,190 @@
   @media (prefers-reduced-motion: reduce) {
     * { transition: none !important; animation: none !important; }
   }
+
+  /* ══════════════════════════════════════════════════════════════════════
+     HERO + THE TWO ANIMATED GATES
+     Motion carries the finding, it does not decorate: the SEO gate shows
+     nine competing pages collapsing into one primary; the AEO gate shows a
+     passage being lifted out of a page and cited. Both loop slowly, pause
+     on hover, and stop dead under prefers-reduced-motion.
+     ══════════════════════════════════════════════════════════════════════ */
+
+  .livedot {
+    display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--pass); margin-right: 7px; vertical-align: middle;
+    animation: pulse 2.6s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
+
+  .hero { border-bottom: 1px solid var(--rule); background: var(--surface); }
+  .hero-inner { padding-block: 46px 40px; }
+  .hero-copy { max-width: 66ch; }
+  .hero-h {
+    font-family: var(--display); font-weight: 800;
+    font-size: clamp(30px, 5.2vw, 50px); line-height: 1.06;
+    letter-spacing: -.033em; margin: 0 0 14px; text-wrap: balance;
+  }
+  .hero-p { margin: 0 0 26px; color: var(--ink-2); font-size: 16.5px; max-width: 58ch; }
+  .hero-p em { color: var(--ink); font-style: normal; font-weight: 600; }
+
+  .scorecard { display: flex; flex-wrap: wrap; gap: 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+  .sc { display: flex; flex-direction: column; gap: 2px; padding: 13px 20px 14px; flex: 1 1 150px; }
+  .sc + .sc { border-left: 1px solid var(--rule); }
+  .sc-k {
+    font-family: var(--mono); font-size: 10px; letter-spacing: .13em;
+    text-transform: uppercase; color: var(--ink-3);
+  }
+  .sc-v {
+    font-family: var(--display); font-weight: 800; font-size: 30px;
+    letter-spacing: -.03em; line-height: 1.05; font-variant-numeric: tabular-nums;
+  }
+  .sc-v i { font-style: normal; font-size: 14px; font-weight: 600; color: var(--ink-3); }
+  .sc-v.is-low { color: var(--crit); }
+  .sc-v.is-mid { color: var(--warn); }
+  .sc-n { font-size: 12px; color: var(--ink-3); }
+
+  /* ── the two gates ─────────────────────────────────────────────────────── */
+  .gates {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+    gap: 20px; padding-block: 34px 8px;
+  }
+  .gate {
+    display: flex; flex-direction: column; text-decoration: none; color: inherit;
+    background: var(--surface); border: 1px solid var(--rule);
+    border-top: 3px solid var(--rule-2); border-radius: 2px; overflow: hidden;
+    transition: border-top-color .2s ease, transform .2s ease, box-shadow .2s ease;
+  }
+  .gate:hover, .gate:focus-visible {
+    border-top-color: var(--accent); transform: translateY(-2px); box-shadow: var(--shadow);
+  }
+  .gate:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+  .gate-viz { position: relative; background: var(--surface-2); border-bottom: 1px solid var(--rule); }
+  .viz { display: block; width: 100%; height: auto; }
+  .viz-cap {
+    position: absolute; left: 14px; bottom: 11px;
+    font-family: var(--mono); font-size: 10.5px; color: var(--ink-3);
+    letter-spacing: .02em;
+  }
+  .viz-cap b { color: var(--accent); font-weight: 600; }
+
+  .gate-body { padding: 20px 22px 22px; display: flex; flex-direction: column; flex: 1; }
+  .gate-num {
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: .15em;
+    color: var(--accent); font-weight: 600; margin-bottom: 7px;
+  }
+  .gate h3 {
+    font-family: var(--display); font-weight: 800; font-size: 22px;
+    letter-spacing: -.022em; margin: 0 0 8px;
+  }
+  .gate p { margin: 0 0 14px; color: var(--ink-2); font-size: 14px; }
+  .gate-tally {
+    font-family: var(--mono); font-size: 11px; color: var(--ink-3);
+    display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 15px;
+  }
+  .gate-tally b { font-weight: 600; }
+  .gate-go {
+    margin-top: auto; display: inline-flex; align-items: center; gap: 7px;
+    font-family: var(--mono); font-size: 11.5px; font-weight: 500;
+    letter-spacing: .05em; text-transform: uppercase; color: var(--accent);
+  }
+  .gate-go svg { transition: transform .2s ease; }
+  .gate:hover .gate-go svg { transform: translateX(3px); }
+
+  /* ── viz 01 · consolidation ────────────────────────────────────────────── */
+  .viz-seo .viz-sats rect { fill: var(--rule-2); opacity: .55; }
+  .viz-seo .viz-rays line { stroke: var(--rule-2); stroke-width: 1; opacity: 0; }
+  .viz-seo .viz-primary rect { fill: none; stroke: var(--accent); stroke-width: 1.6; }
+  .viz-seo .viz-primary line { stroke: var(--accent); stroke-width: 1.4; opacity: .5; }
+
+  .viz-seo .viz-sats rect { animation: satDrift 7s ease-in-out infinite; }
+  .viz-seo .viz-rays line { animation: rayFade 7s ease-in-out infinite; }
+  .viz-seo .viz-primary  { animation: primaryLift 7s ease-in-out infinite; transform-origin: 160px 75px; }
+  .viz-seo .viz-sats rect:nth-child(2n)   { animation-delay: .12s; }
+  .viz-seo .viz-sats rect:nth-child(3n)   { animation-delay: .24s; }
+  .viz-seo .viz-rays line:nth-child(2n)   { animation-delay: .1s; }
+  .viz-seo .viz-rays line:nth-child(3n)   { animation-delay: .2s; }
+
+  @keyframes satDrift {
+    0%, 22%   { transform: translate(0,0);            opacity: .55; }
+    52%, 74%  { transform: translate(var(--tx,0),0);  opacity: .12; }
+    100%      { transform: translate(0,0);            opacity: .55; }
+  }
+  .viz-seo .viz-sats rect:nth-child(-n+5) { --tx: 58px; }
+  .viz-seo .viz-sats rect:nth-child(n+6)  { --tx: -58px; }
+
+  @keyframes rayFade {
+    0%, 18%  { opacity: 0; }
+    40%, 70% { opacity: .85; }
+    92%,100% { opacity: 0; }
+  }
+  @keyframes primaryLift {
+    0%, 26%   { opacity: .45; transform: scale(.97); }
+    54%, 78%  { opacity: 1;   transform: scale(1); }
+    100%      { opacity: .45; transform: scale(.97); }
+  }
+
+  /* ── viz 02 · extraction ───────────────────────────────────────────────── */
+  .viz-aeo .viz-page rect  { fill: none; stroke: var(--rule-2); stroke-width: 1; }
+  .viz-aeo .viz-page line  { stroke: var(--rule-2); stroke-width: 2.4; stroke-linecap: round; }
+  .viz-aeo .viz-page .ln-h { stroke: var(--ink-3); stroke-width: 3; }
+  .viz-aeo .ln-lift rect   { fill: var(--accent-bg); stroke: var(--accent); stroke-width: 1; }
+  .viz-aeo .ln-lift line   { stroke: var(--accent); }
+  .viz-aeo .viz-arc path   { stroke: var(--accent); stroke-width: 1.4; stroke-dasharray: 3 3; opacity: 0; }
+  .viz-aeo .viz-answer rect { fill: var(--surface); stroke: var(--rule-2); stroke-width: 1; }
+  .viz-aeo .viz-answer line { stroke: var(--rule-2); stroke-width: 2.4; stroke-linecap: round; }
+  .viz-aeo .viz-answer .cite { fill: var(--accent); stroke: none; }
+
+  .viz-aeo .ln-lift     { animation: liftPassage 7s ease-in-out infinite; }
+  .viz-aeo .viz-arc path{ animation: arcDraw 7s ease-in-out infinite; }
+  .viz-aeo .viz-answer  { animation: answerIn 7s ease-in-out infinite; transform-origin: 246px 68px; }
+  .viz-aeo .viz-answer line { animation: fillLine 7s ease-in-out infinite; }
+  .viz-aeo .viz-answer line:nth-of-type(2) { animation-delay: .14s; }
+  .viz-aeo .viz-answer line:nth-of-type(3) { animation-delay: .28s; }
+  .viz-aeo .viz-answer .cite { animation: citeIn 7s ease-in-out infinite; }
+
+  @keyframes liftPassage {
+    0%, 14%  { opacity: .35; transform: translateY(0); }
+    30%, 82% { opacity: 1;   transform: translateY(-2px); }
+    100%     { opacity: .35; transform: translateY(0); }
+  }
+  @keyframes arcDraw { 0%,26% { opacity: 0; } 44%,78% { opacity: .9; } 96%,100% { opacity: 0; } }
+  @keyframes answerIn {
+    0%, 32%   { opacity: 0; transform: scale(.96); }
+    50%, 80%  { opacity: 1; transform: scale(1); }
+    100%      { opacity: 0; transform: scale(.96); }
+  }
+  @keyframes fillLine {
+    0%, 42%  { transform: scaleX(0); opacity: 0; }
+    58%, 82% { transform: scaleX(1); opacity: 1; }
+    100%     { transform: scaleX(0); opacity: 0; }
+  }
+  .viz-aeo .viz-answer line { transform-origin: 202px 0; }
+  @keyframes citeIn { 0%,56% { opacity: 0; } 68%,82% { opacity: 1; } 100% { opacity: 0; } }
+
+  /* hovering a gate pauses its animation so the frame can be read */
+  .gate:hover .viz *, .gate:focus-within .viz * { animation-play-state: paused; }
+
+  /* row highlighting, per the data-dense dashboard pattern */
+  .snag { transition: background .15s ease; }
+  .snag:hover { background: var(--surface); }
+
+  @media (max-width: 700px) {
+    .sc + .sc { border-left: 0; border-top: 1px solid var(--rule); }
+    .sc { flex-basis: 100%; flex-direction: row; align-items: baseline; gap: 10px; }
+    .sc-n { margin-left: auto; text-align: right; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .livedot, .viz * { animation: none !important; }
+    /* resting frame must still read correctly with no motion at all */
+    .viz-seo .viz-rays line { opacity: .85; }
+    .viz-seo .viz-primary   { opacity: 1; }
+    .viz-aeo .viz-arc path  { opacity: .9; }
+    .viz-aeo .viz-answer    { opacity: 1; }
+    .viz-aeo .viz-answer line { transform: scaleX(1); opacity: 1; }
+    .viz-aeo .viz-answer .cite { opacity: 1; }
+    .viz-aeo .ln-lift       { opacity: 1; }
+    .gate:hover { transform: none; }
+  }

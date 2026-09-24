@@ -13,14 +13,111 @@
         <span class="target">survey of <b>bricknbolt.com</b></span>
       </div>
       <div class="mast-meta">
-        Measured 22 Sep 2026 · headless render, 6 templates<br>
+        <span class="livedot" aria-hidden="true"></span>Re-measured 24 Sep 2026 · 6 templates<br>
         12,458 URLs enumerated · 157 checks
       </div>
     </div>
   </div>
 </header>
 
-<div class="survey wrap" style="max-width:1140px">
+<!-- ══ HERO — the thesis ══════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="wrap hero-inner">
+    <div class="hero-copy">
+      <span class="eyebrow">Search visibility survey</span>
+      <h2 class="hero-h">Two surfaces. Two different jobs.</h2>
+      <p class="hero-p">
+        Google decides whether these pages can be <em>found</em>. ChatGPT and AI Overviews
+        decide whether they get <em>quoted</em>. The same site can be strong at one and
+        invisible in the other — and the work that fixes each is not the same work.
+      </p>
+      <div class="scorecard" role="table" aria-label="Audit scores out of ten">
+        <div class="sc" role="row"><span class="sc-k" role="cell">SEO</span><span class="sc-v is-mid" role="cell">4<i>/10</i></span><span class="sc-n" role="cell">Sound base, broken architecture</span></div>
+        <div class="sc" role="row"><span class="sc-k" role="cell">GEO</span><span class="sc-v is-mid" role="cell">4<i>/10</i></span><span class="sc-n" role="cell">Entity contradicts itself</span></div>
+        <div class="sc" role="row"><span class="sc-k" role="cell">AEO</span><span class="sc-v is-low" role="cell">3<i>/10</i></span><span class="sc-n" role="cell">Answers declared, never shown</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ THE TWO PLACEHOLDERS ═══════════════════════════════════════════════ -->
+<section class="wrap gates" aria-label="The two optimisation tracks">
+
+  <!-- ── 1. SEO ── animation: nine competing pages collapse into one primary ── -->
+  <a class="gate gate--seo" href="#seo">
+    <div class="gate-viz" aria-hidden="true">
+      <svg viewBox="0 0 320 150" role="presentation" class="viz viz-seo">
+        <g class="viz-rays">
+          <line x1="40"  y1="34"  x2="160" y2="75"/><line x1="40"  y1="75"  x2="160" y2="75"/>
+          <line x1="40"  y1="116" x2="160" y2="75"/><line x1="90"  y1="24"  x2="160" y2="75"/>
+          <line x1="90"  y1="126" x2="160" y2="75"/><line x1="272" y1="34"  x2="160" y2="75"/>
+          <line x1="272" y1="75"  x2="160" y2="75"/><line x1="272" y1="116" x2="160" y2="75"/>
+          <line x1="222" y1="24"  x2="160" y2="75"/>
+        </g>
+        <g class="viz-sats">
+          <rect x="24"  y="26"  width="32" height="16" rx="1.5"/><rect x="24"  y="67"  width="32" height="16" rx="1.5"/>
+          <rect x="24"  y="108" width="32" height="16" rx="1.5"/><rect x="74"  y="16"  width="32" height="16" rx="1.5"/>
+          <rect x="74"  y="118" width="32" height="16" rx="1.5"/><rect x="256" y="26"  width="32" height="16" rx="1.5"/>
+          <rect x="256" y="67"  width="32" height="16" rx="1.5"/><rect x="256" y="108" width="32" height="16" rx="1.5"/>
+          <rect x="206" y="16"  width="32" height="16" rx="1.5"/>
+        </g>
+        <g class="viz-primary">
+          <rect x="136" y="57" width="48" height="36" rx="2"/>
+          <line x1="144" y1="68" x2="176" y2="68"/><line x1="144" y1="76" x2="170" y2="76"/>
+          <line x1="144" y1="84" x2="173" y2="84"/>
+        </g>
+      </svg>
+      <span class="viz-cap"><b>9</b> pages, one query &rarr; <b>1</b> primary</span>
+    </div>
+    <div class="gate-body">
+      <span class="gate-num">01</span>
+      <h3>SEO Optimize</h3>
+      <p>Whether Google can find, crawl, understand and rank what already exists.
+         Architecture first — no amount of content fixes nine pages fighting each
+         other for one query.</p>
+      <div class="gate-tally" id="gate-seo"></div>
+      <span class="gate-go">Open the SEO snags<svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    </div>
+  </a>
+
+  <!-- ── 2. AEO/GEO ── animation: a passage is lifted out and cited ────────── -->
+  <a class="gate gate--aeo" href="#aeo">
+    <div class="gate-viz" aria-hidden="true">
+      <svg viewBox="0 0 320 150" role="presentation" class="viz viz-aeo">
+        <g class="viz-page">
+          <rect x="18" y="14" width="126" height="122" rx="2"/>
+          <line x1="30" y1="32" x2="104" y2="32" class="ln-h"/>
+          <line x1="30" y1="46" x2="132" y2="46"/><line x1="30" y1="56" x2="126" y2="56"/>
+          <g class="ln-lift">
+            <rect x="26" y="66" width="110" height="26" rx="1.5"/>
+            <line x1="30" y1="74" x2="128" y2="74"/><line x1="30" y1="84" x2="112" y2="84"/>
+          </g>
+          <line x1="30" y1="102" x2="132" y2="102"/><line x1="30" y1="112" x2="118" y2="112"/>
+          <line x1="30" y1="122" x2="124" y2="122"/>
+        </g>
+        <g class="viz-arc"><path d="M140 79 C 178 79, 178 52, 198 52" fill="none"/></g>
+        <g class="viz-answer">
+          <rect x="190" y="30" width="112" height="76" rx="3"/>
+          <line x1="202" y1="48" x2="272" y2="48"/><line x1="202" y1="58" x2="286" y2="58"/>
+          <line x1="202" y1="68" x2="262" y2="68"/>
+          <rect x="202" y="80" width="54" height="12" rx="6" class="cite"/>
+        </g>
+      </svg>
+      <span class="viz-cap"><b>41</b> answers declared &rarr; <b>1</b> renders</span>
+    </div>
+    <div class="gate-body">
+      <span class="gate-num">02</span>
+      <h3>AEO / GEO Optimize</h3>
+      <p>Whether ChatGPT, AI Overviews and Perplexity quote Brick&amp;Bolt rather than a
+         third-party listicle. Answer engines cite passages and entities, not pages —
+         so this is different work.</p>
+      <div class="gate-tally" id="gate-aeo"></div>
+      <span class="gate-go">Open the AEO/GEO snags<svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    </div>
+  </a>
+</section>
+
+<div class="survey wrap">
   <div class="stat is-crit">
     <span class="k">Health score</span>
     <span class="v">39<small>/100</small></span>
@@ -43,7 +140,7 @@
   </div>
   <div class="stat">
     <span class="k">Not yet measured</span>
-    <span class="v">9</span>
+    <span class="v" id="stat-unknown">&mdash;</span>
     <div class="n">needs access or licence</div>
   </div>
 </div>
@@ -57,27 +154,25 @@
       <button class="chip" data-filter="pass" aria-pressed="false">Passing</button>
       <button class="chip" data-filter="unknown" aria-pressed="false">Not measured</button>
       <span class="spacer"></span>
-      <span class="count-live" id="count-live"></span>
+      <span class="count-live" id="count-live" role="status"></span>
     </div>
   </div>
 </div>
 
 <main class="wrap">
 
-  <!-- ══ SECTION 1 ════════════════════════════════════════════════════════ -->
   <section class="band" id="seo">
     <div class="band-head">
       <span class="eyebrow">Section 01</span>
       <h2>SEO Optimize</h2>
       <p>What decides whether Google can find, crawl, understand and rank the pages
          Brick&amp;Bolt already publishes. Architecture first — no amount of content
-         fixes eleven pages fighting each other for one query.</p>
+         fixes nine pages fighting each other for one query.</p>
       <div class="band-tally" id="tally-seo"></div>
     </div>
     <div id="mount-seo"></div>
   </section>
 
-  <!-- ══ SECTION 2 ════════════════════════════════════════════════════════ -->
   <section class="band" id="aeo">
     <div class="band-head">
       <span class="eyebrow">Section 02</span>
@@ -96,6 +191,9 @@
          <code>section</code>, <code>group</code>, <code>ref</code>, <code>status</code>,
          <code>severity</code>, <code>title</code>, <code>why</code>,
          <code>evidence</code> and <code>fix</code> — no markup changes, no build step.</p>
+      <p>Markup lives in <code>shell.html</code>; <code>node build.mjs</code> writes both
+         <code>index.html</code> (GitHub Pages) and <code>artifact.html</code> from it, so
+         the two entry points cannot drift apart.</p>
       <p>Status values <code>fail</code> / <code>warn</code> / <code>pass</code> /
          <code>unknown</code> drive the pills, the filters and the tallies.
          <code>unknown</code> is deliberate: it marks what has not been measured yet
@@ -109,12 +207,11 @@
   <div class="wrap">
     <div class="fgrid">
       <div>
-        <b>Evidence.</b> Figures measured from production URLs on 22 Sep 2026 using a
-        headless rendering browser, computed styles and full sitemap enumeration.
+        <b>Evidence.</b> Measured from production URLs on 24 Sep 2026 with a headless
+        rendering browser, computed styles and full sitemap enumeration — not copied
+        from a third-party tool. Scores use the seo-aeo-geo audit rubric.
       </div>
-      <div class="mono">
-        bnb-seo-aeo-geo · layout v0.1
-      </div>
+      <div class="mono">bnb-seo-aeo-geo · v0.4</div>
     </div>
   </div>
 </footer>

@@ -38,12 +38,26 @@ function build(sectionKey, mountId, tallyId) {
   }).join('') + `<p class="empty" hidden>No items match this filter.</p>`;
 
   const n = (st) => rows.filter((r) => r.status === st).length;
+
+  // the gate card on the homepage shares this section's counts
+  const gate = document.getElementById('gate-' + sectionKey);
+  if (gate) {
+    gate.innerHTML =
+      `<span><b>${rows.length}</b> pointers</span>` +
+      `<span style="color:var(--crit)"><b>${n('fail')}</b> failing</span>` +
+      `<span><b>${n('unknown')}</b> unmeasured</span>`;
+  }
+
   document.getElementById(tallyId).innerHTML =
     `<span><b>${rows.length}</b> pointers</span>` +
     `<span style="color:var(--crit)"><b>${n('fail')}</b> failing</span>` +
     `<span style="color:var(--pass)"><b>${n('pass')}</b> passing</span>` +
     `<span><b>${n('unknown')}</b> not measured</span>`;
 }
+
+// keep the header tile in step with the data rather than a hardcoded number
+const unknownTile = document.getElementById('stat-unknown');
+if (unknownTile) unknownTile.textContent = SNAGS.filter((s) => s.status === 'unknown').length;
 
 build('seo', 'mount-seo', 'tally-seo');
 build('aeo', 'mount-aeo', 'tally-aeo');

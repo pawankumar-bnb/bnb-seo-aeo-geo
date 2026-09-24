@@ -15,11 +15,33 @@ Two sections:
 
 | File            | What it is                                                        |
 | --------------- | ----------------------------------------------------------------- |
-| `index.html`    | Standalone page — this is what GitHub Pages serves                 |
-| `artifact.html` | Same shell without a document skeleton, for publishing as an Artifact |
+| `shell.html`    | **The markup.** Edit this, never the two files below               |
+| `build.mjs`     | `node build.mjs` writes both entry points from `shell.html`        |
+| `index.html`    | Generated — this is what GitHub Pages serves                       |
+| `artifact.html` | Generated — same markup, no document skeleton, for the Artifact host |
 | `app.css`       | All styling. Tokens at the top, light and dark themes              |
 | `data.js`       | **The content.** One `SNAGS` array — extend this                   |
 | `app.js`        | Renders rows, groups, tallies and filters from `SNAGS`             |
+
+## The homepage
+
+Hero, a three-dimension scorecard (SEO / GEO / AEO out of ten, from the
+`seo-aeo-geo` audit rubric), then two animated gates into the sections below.
+
+The motion carries the finding rather than decorating it:
+
+- **SEO Optimize** — nine competing city pages drift inward and collapse into one
+  primary page. That is the C1 finding, animated.
+- **AEO/GEO Optimize** — a passage lifts out of a page, arcs across, and lands in
+  an answer card with a citation chip. That is what an answer engine does, and
+  what 41 declared-but-unrendered answers currently prevent.
+
+Both loop on a 7s cycle, pause on hover so a frame can be read, and stop dead
+under `prefers-reduced-motion` — with a resting frame that still reads correctly
+with no motion at all.
+
+Pure CSS and SVG, no animation library: two looping keyframe sets do not justify
+a runtime dependency.
 
 ## Extending it
 
