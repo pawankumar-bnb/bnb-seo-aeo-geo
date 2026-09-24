@@ -285,4 +285,34 @@ const SNAGS = [
  why:'Phone and address are present, email is not. Answer engines and buyers both look for a full contact set, and it is one of the cheapest trust signals available.',
  evidence:'One tel: link (+91 7505205205) and a PostalAddress in schema. Zero mailto: links on the homepage.',
  fix:'Expose a monitored contact address and add it to the ContactPoint node.'},
+/* ── added 24 Sep 2026: seo-aeo-geo re-audit against the updated skill ──── */
+{section:'aeo', group:'Trust and citation', ref:'FACT-01', src:'live+web', status:'fail', severity:'Critical',
+ title:'Bengaluru pages name a municipal body that was dissolved in 2025',
+ why:'Every Bengaluru page tells buyers and answer engines that BBMP is the approving authority, and that it splits the city into four zones. BBMP was dissolved on 2 September 2025 and replaced by five city corporations under the Greater Bengaluru Authority. An answer engine that fact-checks this finds the page wrong, and factual accuracy is the main thing that decides whether a brand gets cited.',
+ evidence:'Rendered DOM, 24 Sep 2026. /construction-company-bengaluru: BBMP x9 visible (x21 served), including "BBMP divides Bengaluru into East, West, South, and North zones." 7 of 7 sampled Bengaluru locality pages also carry it (x8 visible, x24 served). Zero mentions of Greater Bengaluru Authority or the five corporations anywhere. The city page drew 15,982 impressions in the last 28 days - the most-seen Bengaluru page on the site.',
+ fix:'Rewrite the approval sections for the five corporations (Central, North, South, East, West) under the GBA. Note the sentence is wrong twice over: the body no longer exists and there are five corporations, not four zones. Start with the city page, which carries effectively all the traffic. Full affected count needs a crawler - blocked by crawl section 2.'},
+
+{section:'seo', group:'Content integrity', ref:'FACT-02', src:'live', status:'warn', severity:'High',
+ title:'Pune locality pages name one approving authority; the city page says there are three',
+ why:'The Pune city page correctly explains that approvals split between PMC, PCMC and PMRDA by location. The locality pages beneath it assert PMC alone, whatever the locality. Any Pune locality actually under PCMC or PMRDA - or the Cantonment Board - is then telling buyers the wrong authority. This is a template asserting one answer where the answer depends on location.',
+ evidence:'Rendered DOM, 24 Sep 2026. /construction-company-pune: PMC x11, PCMC x4, PMRDA x2, including "PMC covers core Pune." /construction-company-kalyani-nagar-pune: PMC x9 only. Same single-authority pattern in served HTML on pune-camp and sahakar-nagar-pune (PMC x28, no PCMC or PMRDA).',
+ fix:'Confirm the authority per locality before publishing it, and leave it out where unconfirmed rather than defaulting to PMC. Kalyani Nagar does sit in PMC territory, so that page is probably right by luck - the template is the problem, not that page. Pune Camp is the one to check first: cantonment areas have their own board.'},
+
+{section:'seo', group:'Content integrity', ref:'FACT-03', src:'registry', status:'fail', severity:'Critical',
+ title:'The brand fact registry prices are well below what the site charges',
+ why:'The registry is what content gets written from. It records an entry price of Rs 1,580/sqft and a Rs 1,600-1,800 range across tiers. The live Bengaluru page starts at Rs 1,995 - above the registry’s stated ceiling. Anyone briefing a page from the registry today publishes prices roughly 20 per cent under actual. The site is the designated price source and appears correct; the registry is the stale side.',
+ evidence:'Rendered DOM, 24 Sep 2026. Bengaluru: Rs 1,995 / Rs 2,145 / Rs 2,495 per sqft. Pune: Rs 1,680 / Rs 1,840 / Rs 2,110 per sqft. Registry: "Rs 1,580/sqft (entry), Rs 1,600-1,800/sqft range across tiers". Registry status is marked SEED - not yet verified.',
+ fix:'Correct the registry from the live city pages, or strike the hardcoded figures and leave only the instruction to fetch live. Do not change the site to match the registry. Package prices differ by city, so a single global figure was never going to hold.'},
+
+{section:'seo', group:'Architecture and consolidation', ref:'ARC-06', src:'GSC 28d', status:'fail', severity:'High',
+ title:'The 2,474 locality pages are all but invisible in search',
+ why:'The locality estate is the largest single block of pages on the site and it earns almost nothing. That settles an open question about where effort should go: these pages do not need hand optimisation, they need a template fix and then leaving alone. It also means template-level errors on them are cheap to fix and cost little while unfixed.',
+ evidence:'GSC, 28 days to 20 Sep 2026. Of every /construction-company-* URL, only 12 cleared 200 impressions, and 10 of those are city pages. The best locality pages were /construction-company-valasaravakkam (913 impressions, 1 click) and /construction-company-anna-nagar (309, 0). Six of eight sampled Bengaluru locality pages recorded zero clicks; three Pune locality pages had no GSC rows at all.',
+ fix:'Keep locality pages out of hand optimisation, as the original audit proposed. Fix them at the template and spend the hours on the ten city pages, which carry effectively all the impressions.'},
+
+{section:'seo', group:'On-page signals', ref:'ONP-07', src:'GSC 28d', status:'warn', severity:'High',
+ title:'The Bengaluru city page converts impressions to clicks poorly',
+ why:'This page is seen a great deal and clicked rarely. At position 7.7 a 0.5 per cent click rate is low, which usually points at the title and description rather than the ranking. It is also the page carrying the BBMP error, so it is the single highest-value page to work on.',
+ evidence:'GSC, 28 days to 20 Sep 2026: 15,982 impressions, 84 clicks, CTR 0.53%, average position 7.7. For contrast /construction-company-delhi sits at position 4.2 with 4,479 impressions and 68 clicks, and /construction-company-pune at position 15.5.',
+ fix:'Rewrite title and meta description for this page first and re-measure after 28 days. Treat CTR as the hypothesis, not a proven cause - position 7.7 is an average across many queries and can hide the real pattern.'},
 ];
