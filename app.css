@@ -98,9 +98,11 @@
     font-weight: 800; font-size: clamp(22px, 3.4vw, 30px);
     letter-spacing: -.02em; margin: 0; text-wrap: balance;
   }
-  .mark .rule-tick {
-    width: 30px; height: 4px; background: var(--accent); border-radius: 1px;
-    align-self: center;
+  /* the accent tick — used in the masthead and on the lockscreen, so it is not
+     scoped to either parent */
+  .rule-tick {
+    flex: none; width: 30px; height: 4px; background: var(--accent);
+    border-radius: 1px; align-self: center;
   }
   .target {
     font-family: var(--mono); font-size: 12.5px; color: var(--ink-2);
@@ -495,4 +497,112 @@
     .viz-aeo .viz-answer .cite { opacity: 1; }
     .viz-aeo .ln-lift       { opacity: 1; }
     .gate:hover { transform: none; }
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════
+     DOMAIN GATE
+     An access check, not a security control — see auth.js. Styled to say
+     "internal tool" rather than "secure area", because it is not one.
+     ══════════════════════════════════════════════════════════════════════ */
+
+  body.is-locked { overflow: hidden; }
+
+  .lock {
+    position: fixed; inset: 0; z-index: 100;
+    display: grid; place-items: center;
+    padding: 24px 20px;
+    padding-top: calc(24px + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+    background: var(--paper);
+    overflow-y: auto;
+  }
+
+  .lock-card {
+    width: 100%; max-width: 420px;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-top: 3px solid var(--accent);
+    border-radius: 2px;
+    padding: 30px 30px 26px;
+    box-shadow: var(--shadow);
+  }
+
+  .lock-mark { display: flex; align-items: center; gap: 11px; margin-bottom: 26px; }
+  .lock-title {
+    font-family: var(--display); font-weight: 800; font-size: 17px;
+    letter-spacing: -.015em;
+  }
+  .lock-h {
+    font-family: var(--display); font-weight: 800;
+    font-size: 27px; letter-spacing: -.028em; margin: 0 0 8px;
+  }
+  .lock-p { margin: 0 0 24px; color: var(--ink-2); font-size: 14.5px; }
+
+  .lock-label {
+    display: block; font-family: var(--mono); font-size: 10.5px;
+    letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3);
+    margin-bottom: 7px;
+  }
+  .lock-input {
+    width: 100%; box-sizing: border-box;
+    font-family: var(--body); font-size: 15px; color: var(--ink);
+    background: var(--paper);
+    border: 1px solid var(--rule-2); border-radius: 2px;
+    padding: 11px 13px;
+    transition: border-color .15s ease, box-shadow .15s ease;
+  }
+  .lock-input::placeholder { color: var(--ink-3); }
+  .lock-input:focus {
+    outline: none; border-color: var(--accent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+  }
+  .lock-input[aria-invalid="true"] { border-color: var(--crit); }
+
+  .lock-err {
+    margin: 9px 0 0; font-size: 13px; color: var(--crit);
+    display: flex; gap: 6px; align-items: flex-start;
+  }
+  .lock-err::before { content: "!"; font-family: var(--mono); font-weight: 600; }
+  .lock-hint { margin: 9px 0 0; font-size: 12.5px; color: var(--ink-3); }
+  .lock-hint b { color: var(--ink-2); font-family: var(--mono); font-size: 12px; }
+
+  .lock-btn {
+    width: 100%; margin-top: 18px; cursor: pointer;
+    font-family: var(--mono); font-size: 12px; font-weight: 600;
+    letter-spacing: .09em; text-transform: uppercase;
+    color: var(--accent-ink); background: var(--accent);
+    border: 1px solid var(--accent); border-radius: 2px;
+    padding: 12px 16px; min-height: 44px;
+    transition: filter .15s ease, transform .1s ease;
+  }
+  .lock-btn:hover { filter: brightness(1.07); }
+  .lock-btn:active { transform: translateY(1px); }
+  .lock-btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+  .lock-note {
+    margin: 24px 0 0; padding-top: 18px;
+    border-top: 1px solid var(--rule);
+    font-size: 12.5px; line-height: 1.55; color: var(--ink-3);
+  }
+  .lock-note b { color: var(--ink-2); font-weight: 600; }
+
+  /* signed-in strip in the masthead */
+  .whoami {
+    display: inline-flex; align-items: center; gap: 9px;
+    margin-top: 5px; font-family: var(--mono); font-size: 11px;
+  }
+  .whoami #lock-who { color: var(--ink-2); }
+  #signout {
+    cursor: pointer; font-family: var(--mono); font-size: 10.5px;
+    letter-spacing: .06em; text-transform: uppercase;
+    color: var(--ink-3); background: none;
+    border: 1px solid var(--rule-2); border-radius: 2px;
+    padding: 3px 8px; min-height: 26px;
+    transition: color .15s ease, border-color .15s ease;
+  }
+  #signout:hover { color: var(--accent); border-color: var(--accent); }
+  #signout:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  @media (max-width: 860px) {
+    .whoami { margin-top: 8px; }
   }

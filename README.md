@@ -21,7 +21,42 @@ Two sections:
 | `artifact.html` | Generated — same markup, no document skeleton, for the Artifact host |
 | `app.css`       | All styling. Tokens at the top, light and dark themes              |
 | `data.js`       | **The content.** One `SNAGS` array — extend this                   |
+| `auth.js`       | The @bricknbolt.com domain gate — read the warning below           |
 | `app.js`        | Renders rows, groups, tallies and filters from `SNAGS`             |
+
+## About the login page
+
+`auth.js` gates the page on an `@bricknbolt.com` email address. **It is not a
+security control, and must not be treated as one.**
+
+This site is static files on GitHub Pages. The page, its styles and `data.js`
+are all publicly served, so anyone who skips the page can still read everything
+behind it:
+
+```
+curl https://pawankumar-bnb.github.io/bnb-seo-aeo-geo/data.js
+```
+
+While the repository is public, that file is also readable straight from GitHub.
+The gate keeps the survey out of general circulation and marks the page as
+internal. That is all it does.
+
+It deliberately has **no password field**. A password box on a page that cannot
+verify one would train people to type a real corporate password into an
+unauthenticated static page — worse than no gate. Email domain only.
+
+Behind the gate, the survey is not rendered into the DOM until an accepted
+address is entered, so "View source" on the page alone does not show the
+findings. `data.js` is still directly fetchable.
+
+### If this needs to be a real control
+
+1. Make the repository private, and
+2. serve it from behind something that checks identity server-side — Cloudflare
+   Access with a Google Workspace domain rule (free tier covers small teams),
+   Netlify Identity, or Vercel with SSO.
+
+Changing the allowed domain: edit `ALLOWED_DOMAIN` at the top of `auth.js`.
 
 ## The homepage
 

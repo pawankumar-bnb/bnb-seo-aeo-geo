@@ -55,48 +55,55 @@ function build(sectionKey, mountId, tallyId) {
     `<span><b>${n('unknown')}</b> not measured</span>`;
 }
 
-// keep the header tile in step with the data rather than a hardcoded number
-const unknownTile = document.getElementById('stat-unknown');
-if (unknownTile) unknownTile.textContent = SNAGS.filter((s) => s.status === 'unknown').length;
+function boot() {
+  // keep the header tile in step with the data rather than a hardcoded number
+  const unknownTile = document.getElementById('stat-unknown');
+  if (unknownTile) unknownTile.textContent = SNAGS.filter((s) => s.status === 'unknown').length;
 
-build('seo', 'mount-seo', 'tally-seo');
-build('aeo', 'mount-aeo', 'tally-aeo');
+  build('seo', 'mount-seo', 'tally-seo');
+  build('aeo', 'mount-aeo', 'tally-aeo');
 
-/* ── filtering ──────────────────────────────────────────────────────────── */
-const chips = [...document.querySelectorAll('.chip')];
-const live = document.getElementById('count-live');
+  /* ── filtering ──────────────────────────────────────────────────────────── */
+  const chips = [...document.querySelectorAll('.chip')];
+  const live = document.getElementById('count-live');
 
-function applyFilter(mode) {
-  let shown = 0;
-  document.querySelectorAll('.snag').forEach((el) => {
-    const st = el.dataset.status;
-    const sev = el.dataset.severity;
-    const keep =
-      mode === 'all' ? true :
-      mode === 'fail' ? (st === 'fail' || st === 'warn') :
-      mode === 'critical' ? sev === 'critical' :
-      mode === 'pass' ? st === 'pass' :
-      st === 'unknown';
-    el.classList.toggle('hide', !keep);
-    if (keep) shown++;
-  });
+  function applyFilter(mode) {
+    let shown = 0;
+    document.querySelectorAll('.snag').forEach((el) => {
+      const st = el.dataset.status;
+      const sev = el.dataset.severity;
+      const keep =
+        mode === 'all' ? true :
+        mode === 'fail' ? (st === 'fail' || st === 'warn') :
+        mode === 'critical' ? sev === 'critical' :
+        mode === 'pass' ? st === 'pass' :
+        st === 'unknown';
+      el.classList.toggle('hide', !keep);
+      if (keep) shown++;
+    });
 
-  // hide a group heading when every row under it is filtered out
-  document.querySelectorAll('[data-group]').forEach((g) => {
-    const any = [...g.querySelectorAll('.snag')].some((el) => !el.classList.contains('hide'));
-    g.hidden = !any;
-  });
-  document.querySelectorAll('.empty').forEach((p) => {
-    const sec = p.closest('section');
-    p.hidden = [...sec.querySelectorAll('.snag')].some((el) => !el.classList.contains('hide'));
-  });
+    // hide a group heading when every row under it is filtered out
+    document.querySelectorAll('[data-group]').forEach((g) => {
+      const any = [...g.querySelectorAll('.snag')].some((el) => !el.classList.contains('hide'));
+      g.hidden = !any;
+    });
+    document.querySelectorAll('.empty').forEach((p) => {
+      const sec = p.closest('section');
+      p.hidden = [...sec.querySelectorAll('.snag')].some((el) => !el.classList.contains('hide'));
+    });
 
-  live.textContent = `${shown} of ${SNAGS.length} shown`;
+    live.textContent = `${shown} of ${SNAGS.length} shown`;
+  }
+
+  chips.forEach((c) => c.addEventListener('click', () => {
+    chips.forEach((o) => o.setAttribute('aria-pressed', String(o === c)));
+    applyFilter(c.dataset.filter);
+  }));
+
+  applyFilter('all');
 }
 
-chips.forEach((c) => c.addEventListener('click', () => {
-  chips.forEach((o) => o.setAttribute('aria-pressed', String(o === c)));
-  applyFilter(c.dataset.filter);
-}));
-
-applyFilter('all');
+// The domain gate decides when the survey renders, so nothing behind it is
+// placed in the DOM until then. auth.js fires bnb:unlock.
+if (window.BNB_UNLOCKED) boot();
+else document.addEventListener('bnb:unlock', boot, { once: true });
