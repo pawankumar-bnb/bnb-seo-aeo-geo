@@ -1,0 +1,122 @@
+<title>Brick&Bolt Snag List</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="app.css">
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="mast-inner">
+      <div class="mark">
+        <span class="rule-tick" aria-hidden="true"></span>
+        <h1>Snag List</h1>
+        <span class="target">survey of <b>bricknbolt.com</b></span>
+      </div>
+      <div class="mast-meta">
+        Measured 22 Sep 2026 · headless render, 6 templates<br>
+        12,458 URLs enumerated · 157 checks
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="survey wrap" style="max-width:1140px">
+  <div class="stat is-crit">
+    <span class="k">Health score</span>
+    <span class="v">39<small>/100</small></span>
+    <div class="n">weighted by severity</div>
+  </div>
+  <div class="stat is-crit">
+    <span class="k">Critical open</span>
+    <span class="v">13</span>
+    <div class="n">across 6 templates</div>
+  </div>
+  <div class="stat">
+    <span class="k">High open</span>
+    <span class="v">34</span>
+    <div class="n">fix before content spend</div>
+  </div>
+  <div class="stat is-accent">
+    <span class="k">Pages competing</span>
+    <span class="v">166</span>
+    <div class="n">in 44 clusters, 10 cities</div>
+  </div>
+  <div class="stat">
+    <span class="k">Not yet measured</span>
+    <span class="v">9</span>
+    <div class="n">needs access or licence</div>
+  </div>
+</div>
+
+<div class="controls">
+  <div class="wrap">
+    <div class="controls-inner" role="group" aria-label="Filter snags by status">
+      <button class="chip" data-filter="all" aria-pressed="true">All</button>
+      <button class="chip" data-filter="fail" aria-pressed="false">Failing</button>
+      <button class="chip" data-filter="critical" aria-pressed="false">Critical only</button>
+      <button class="chip" data-filter="pass" aria-pressed="false">Passing</button>
+      <button class="chip" data-filter="unknown" aria-pressed="false">Not measured</button>
+      <span class="spacer"></span>
+      <span class="count-live" id="count-live"></span>
+    </div>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <!-- ══ SECTION 1 ════════════════════════════════════════════════════════ -->
+  <section class="band" id="seo">
+    <div class="band-head">
+      <span class="eyebrow">Section 01</span>
+      <h2>SEO Optimize</h2>
+      <p>What decides whether Google can find, crawl, understand and rank the pages
+         Brick&amp;Bolt already publishes. Architecture first — no amount of content
+         fixes eleven pages fighting each other for one query.</p>
+      <div class="band-tally" id="tally-seo"></div>
+    </div>
+    <div id="mount-seo"></div>
+  </section>
+
+  <!-- ══ SECTION 2 ════════════════════════════════════════════════════════ -->
+  <section class="band" id="aeo">
+    <div class="band-head">
+      <span class="eyebrow">Section 02</span>
+      <h2>AEO / GEO Optimize</h2>
+      <p>What decides whether ChatGPT, Google AI Overviews and Perplexity quote
+         Brick&amp;Bolt rather than a third-party listicle. Answer engines cite
+         passages and entities, not pages — so the work is different from Section 01.</p>
+      <div class="band-tally" id="tally-aeo"></div>
+    </div>
+    <div id="mount-aeo"></div>
+
+    <div class="note">
+      <h4>Layout scaffold — extend via the skill file</h4>
+      <p>Every row on this page is rendered from the <code>SNAGS</code> array in
+         <code>data.js</code>. Adding a pointer means appending one object with
+         <code>section</code>, <code>group</code>, <code>ref</code>, <code>status</code>,
+         <code>severity</code>, <code>title</code>, <code>why</code>,
+         <code>evidence</code> and <code>fix</code> — no markup changes, no build step.</p>
+      <p>Status values <code>fail</code> / <code>warn</code> / <code>pass</code> /
+         <code>unknown</code> drive the pills, the filters and the tallies.
+         <code>unknown</code> is deliberate: it marks what has not been measured yet
+         rather than quietly omitting it.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <b>Evidence.</b> Figures measured from production URLs on 22 Sep 2026 using a
+        headless rendering browser, computed styles and full sitemap enumeration.
+      </div>
+      <div class="mono">
+        bnb-seo-aeo-geo · layout v0.1
+      </div>
+    </div>
+  </div>
+</footer>
+<script src="data.js"></script>
+<script src="app.js"></script>
