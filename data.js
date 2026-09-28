@@ -333,4 +333,17 @@ const SNAGS = [
  why:'Not a compliance problem \u2014 Google reads collapsed content. But an extractor that does not click, and a visitor who does not either, sees no answer on screen. The city page and calculator already open theirs, so the pattern to copy is on the site.',
  evidence:'Rendered DOM, 28 Sep 2026: homepage 0 of 16 answers expanded at load; city page 10 of 10 expanded; cost calculator 14 of 15.',
  fix:'Open the highest-intent item by default, as the city template already does. One attribute.'},
+
+/* ── restored after an over-greedy edit dropped them ── */
+{section:"seo", group:"Server and performance", ref:"REN-04", src:"live", status:"warn", severity:"Low",
+ title:"Most of the page weight is inline script and styling, not markup",
+ why:"CORRECTED 28 Sep 2026. Reported as 0.77% text-to-HTML, implying near-empty pages. Measured against markup alone the figure is healthy: 7.8% on the homepage and 20.4% on the city page. Three quarters of the document is inline script and CSS, which is normal for an app of this kind. Text-to-HTML ratio is not a Google ranking factor, so treat this as page weight and speed, not SEO.",
+ evidence:"Rendered DOM, 28 Sep 2026. Homepage: 13,101 visible text characters, 624,717 byte DOM, of which 305,229 inline script and 150,872 inline style — 2.1% against the whole document, 7.77% against markup only. City page: 39,540 chars, 871,943 bytes, 429,923 script, 248,240 style — 4.53% and 20.4%.",
+ fix:"Fold into performance work rather than SEO. Moving inline script and style to cacheable external files helps repeat visits; it will not move rankings."},
+
+{section:"seo", group:"Server and performance", ref:"TEC-01", src:"H3", status:"fail", severity:"High",
+ title:"None of the nine standard security headers are set",
+ why:"No direct ranking effect — but it is basic hygiene any technical reviewer or enterprise client will check, and it is roughly an hour of configuration. The server also announces its exact version, which tells anyone scanning what to target.",
+ evidence:"0 of 9 present: HSTS, CSP, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy and the three cross-origin policies. Response header reads nginx/1.18.0 (Ubuntu).",
+ fix:"Add at the server or edge layer and suppress the version token. Verify with a free securityheaders.com scan — F should become B or better."},
 ];
