@@ -105,12 +105,11 @@ const SNAGS = [
  evidence:'HTML served with gzip rather than Brotli. HTTP/2 only; no HTTP/3 advertised on any request.',
  fix:'Enable Brotli and HTTP/3 at the edge.'},
 
-{section:'seo', group:'Server and performance', ref:'TEC-03', src:'M2 / M3', status:'fail', severity:'Medium',
- title:'Phones download desktop-sized photographs',
- why:'No image offers a smaller version for small screens, so mobile visitors pull full-size files. Images also do not declare their dimensions, which makes the page jump while loading — something Google measures.',
- evidence:'Zero images carry srcset on any template tested. 4 of 10 homepage images declare no width or height.',
- fix:'Add width descriptors and intrinsic dimensions, or serve through an image CDN that negotiates format and size.'},
-
+{section:'seo', group:'Server and performance', ref:'TEC-03', src:'live', status:'warn', severity:'Low',
+ title:"Image delivery already works; a few individual files are wasteful"
+ why:"CORRECTED 28 Sep 2026. Reported as “phones download desktop-sized photographs” because no image carried srcset and some lacked width and height. Measured, neither holds. The site serves device-specific WebP chosen per breakpoint — a different mechanism from srcset, same outcome — and layout shift is already far inside Google’s threshold. Adding srcset and dimensions would change essentially nothing."
+ evidence:"Rendered DOM, cache disabled, 28 Sep 2026. Homepage: 53 KB of images on desktop, 54 KB on mobile, CLS 0.0005 and 0. City page: 300 KB desktop, 132 KB mobile — mobile already under half — CLS 0.0012 and 0. Floor plan: 215 KB desktop, 229 KB mobile, CLS 0.0023 and 0.0194. Google treats CLS below 0.10 as good, so every template passes with room to spare. Most images are already WebP and lazy-loaded."
+ fix:"Drop srcset and width/height as a programme item. Four specific things are worth fixing: the Google Play badge ships at 1920px for a 170px slot on floor-plan pages; 3.1.png is 1512px for a 729px slot; the floor-plan template still serves ~120 KB of PNG that should be WebP; and it is the one template where mobile downloads more than desktop, which is backwards. Together roughly 150-200 KB on a cohort drawing 158,631 impressions a month — real bandwidth, no ranking effect."},
 {section:'seo', group:'Server and performance', ref:'TEC-04', src:'§5', status:'unknown', severity:'Medium',
  title:'Real-world page speed',
  why:'Two automated runs in the original audit disagreed with each other, and one returned zero for every category — which means it did not complete. Lab tools and real-world data routinely disagree, so no performance budget should be spent before this is settled.',
