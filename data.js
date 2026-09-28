@@ -58,11 +58,12 @@ const SNAGS = [
  evidence:'Homepage 5 of 10 images carry an empty alt. City page 59 of 148. Floor plan 17 of 46. Blog 6 of 20.',
  fix:'Descriptive alt text on all content imagery. Decorative images keep an empty attribute deliberately, not by default.'},
 
-{section:'seo', group:'On-page signals', ref:'ONP-03', src:'H4', status:'fail', severity:'High',
- title:'A third of homepage links contain no words',
- why:'The words inside a link tell Google what the destination is about. Icon-only links pass on nothing. It is also an accessibility failure — screen-reader users cannot tell what these links do, including the call button.',
- evidence:'31 of 81 homepage anchors have neither text nor an accessible label, including a call link whose only child is an unlabelled icon.',
- fix:'Give every link text or an aria-label.'},
+{section:'seo', group:'On-page signals', ref:'ONP-03', src:'live', status:'pass', severity:'',
+ title:'Almost every link is labelled',
+ why:'CORRECTED 28 Sep 2026. Reported as 31 of 81 anchors carrying no text. That count treated any link whose text sits inside an image as unlabelled, which is wrong \u2014 an image with alt text labels its link. Re-measured, 2 of 83 anchors lack a label, and both are app-store badges whose inner span is deliberately aria-hidden.',
+ evidence:'Rendered DOM, 28 Sep 2026, homepage: 83 anchors, 82 visible, 2 with no text, no aria-label, no title, no img alt and no svg title. Both point at apps.apple.com and play.google.com.',
+ fix:'Add an aria-label to the two app-store links \u2014 \u201cDownload on the App Store\u201d and \u201cGet it on Google Play\u201d. Five minutes, and it clears the check.'}
+,
 
 {section:'seo', group:'On-page signals', ref:'ONP-04', src:'L2 / L3', status:'fail', severity:'Low',
  title:'Headlines do not match titles, and omit the brand',
@@ -91,17 +92,19 @@ const SNAGS = [
  fix:'No action on the link module. If the carousel matters for users, that is a UX question, not an indexing one.'}
 ,
 
-{section:'seo', group:'What actually renders', ref:'REN-03', src:'live', status:'warn', severity:'High',
- title:'A large text block on city pages is named for search and hidden from screen readers',
- why:'Content written for search engines that people cannot see is the exact pattern Google treats as crawler-only content. It may be entirely innocent — but a block named “seo” in the code should not be left unexamined.',
- evidence:'Roughly 1,539 words inside an element classed whyBnbCard__seo on the city template. Mechanism not fully confirmed — flagged for developer explanation, not yet for action.',
- fix:'Have a developer state in writing what this block is, who can see it and why it exists, before deciding anything.'},
+{section:'seo', group:'Content integrity', ref:'REN-03', src:'live', status:'fail', severity:'Critical',
+ title:'City pages carry search-only text in boxes collapsed to a single pixel',
+ why:'CONFIRMED 28 Sep 2026, and worse than first reported. These blocks are not merely hidden from screen readers. Each is rendered at 1x1 pixels AND marked aria-hidden, while display, visibility and opacity all read normal \u2014 so the text is in the DOM for a crawler and unreadable to every human. The class is named __seo and the content is question-and-answer copy. Text sized so only a crawler can read it is the textbook example of what Google treats as hidden text, and the naming makes intent hard to argue.',
+ evidence:'Rendered DOM, 28 Sep 2026, /construction-company-bengaluru. Four .whyBnbCard__seo blocks sampled: 61, 88, 64 and 104 words, each getBoundingClientRect 1x1 px, each with aria-hidden=\"true\" on the element itself, display:block, visibility:visible, opacity:1. Content includes \u201cNo Cost Overruns \u2014 What if you\u2019re charged more than promised?\u201d and \u201cMoney Safety \u2014 How is my money safe?\u201d. About 1,539 words across the template.',
+ fix:'Escalate this one. Decide with a named owner whether the copy should be visible \u2014 it is good copy and answers real objections \u2014 or removed. Do not leave it at 1x1. Of every finding in this survey it carries the clearest penalty risk.'}
+,
 
-{section:'seo', group:'What actually renders', ref:'REN-04', src:'M1', status:'fail', severity:'Medium',
- title:'Pages are almost entirely code, barely any text',
- why:'Under one per cent of what the homepage sends down the wire is readable prose. It does not carry a ranking penalty on its own, but it slows every page and signals a bloated template.',
- evidence:'4,385 characters of rendered text against 571,137 bytes of delivered HTML — 0.77%.',
- fix:'Move inline scripting, styling and JSON-LD out of the document body where practical.'},
+{section:'seo', group:'Server and performance', ref:'REN-04', src:'live', status:'warn', severity:'Low',
+ title:'Most of the page weight is inline script and styling, not markup',
+ why:'CORRECTED 28 Sep 2026. Reported as 0.77% text-to-HTML, implying near-empty pages. Measured against markup alone the figure is healthy: 7.8% on the homepage and 20.4% on the city page. Three quarters of the document is inline script and CSS, which is normal for an app of this kind. Text-to-HTML ratio is not a Google ranking factor, so treat this as page weight and speed, not SEO.',
+ evidence:'Rendered DOM, 28 Sep 2026. Homepage: 13,101 visible text characters, 624,717 byte DOM, of which 305,229 inline script and 150,872 inline style \u2014 2.1% against the whole document, 7.77% against markup only. City page: 39,540 chars, 871,943 bytes, 429,923 script, 248,240 style \u2014 4.53% and 20.4%.',
+ fix:'Fold into performance work rather than SEO. Moving inline script and style to cacheable external files helps repeat visits; it will not move rankings.'}
+,
 
 /* ── SEO · Technical ────────────────────────────────────────────────────── */
 {section:'seo', group:'Server and performance', ref:'TEC-01', src:'H3', status:'fail', severity:'High',
@@ -166,11 +169,12 @@ const SNAGS = [
  evidence:'Question-format headings: 0 on the floor-plan template, few elsewhere. 16 questions exist in FAQ markup but none render as visible headings.',
  fix:'Convert key headings into the question a buyer types, then answer it in the paragraph directly beneath.'},
 
-{section:'aeo', group:'Answer extraction', ref:'ANS-04', src:'M4', status:'fail', severity:'Medium',
- title:'Sentences are too long and dense to extract well',
- why:'Answer engines favour passages they can lift cleanly. Long, clause-heavy sentences get skipped in favour of a competitor’s shorter one.',
- evidence:'Flesch–Kincaid grade 16.1 on rendered text, averaging 25.5 words per sentence. The band that extracts well is grade 6–8.',
- fix:'Shorten sentences in prominent body copy. Applies to new and rewritten pages, not a retrospective rewrite of everything.'},
+{section:'aeo', group:'Answer extraction', ref:'ANS-04', src:'live', status:'warn', severity:'Low',
+ title:'The homepage reads harder than the city pages, which are fine',
+ why:'CORRECTED 28 Sep 2026. Reported as grade 16.1 at 25.5 words per sentence. That figure swept in form labels, navigation and other non-prose. Measured on visible paragraphs inside main content only, the city page reads at grade 10.9 and 11.9 words per sentence, which is close to the band that extracts well. The homepage at 13.5 is the one worth shortening.',
+ evidence:'Rendered DOM, 28 Sep 2026, visible p elements in main, forms and nav excluded. City page: 129 paragraphs, 2,606 words, 219 sentences, 11.9 words per sentence, Flesch\u2013Kincaid 10.9. Homepage: 50 paragraphs, 853 words, 56 sentences, 15.2 words per sentence, grade 13.5.',
+ fix:'Shorten the homepage copy where convenient. Leave the city pages alone \u2014 they already read well.'}
+,
 
 {section:'aeo', group:'Answer extraction', ref:'ANS-05', src:'M5', status:'fail', severity:'Medium',
  title:'Long pages have no table of contents',
