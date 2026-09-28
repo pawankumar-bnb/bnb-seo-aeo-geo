@@ -84,11 +84,12 @@ const SNAGS = [
  fix:'Look at the floor-plan template (REN-02) and the homepage. Leave the city and contractor templates alone \u2014 they were never the problem.'}
 ,
 
-{section:'seo', group:'What actually renders', ref:'REN-02', src:'H7', status:'fail', severity:'High',
- title:'A block of internal links is hidden on floor-plan pages',
- why:'A “More floor plans” module with cost figures is switched off. Those links are how visitors and Google travel between 5,450 floor-plan pages. Hiding it isolates all of them. This is a link-graph problem as much as a content one.',
- evidence:'737-word related-plans module set to display:none. A further 664 words hidden on the cost calculator, and a 144-word call-to-action bar at opacity:0.',
- fix:'Render the modules. Verify by visiting a floor-plan page and confirming the section is visible.'},
+{section:'seo', group:'What actually renders', ref:'REN-02', src:'live', status:'pass', severity:'',
+ title:'The related-plans module is visible; the carousel is not a problem',
+ why:'CORRECTED 28 Sep 2026. Reported here and in the original Adexorb audit as a 737-word related-plans module set to display:none, suppressing internal links across 5,450 pages. It does not reproduce. On an individual plan page the module is present and visible, with a visible h2. Its 49 plan links sit in a carousel, so only the active slide is on screen \u2014 but every link is a real anchor in the DOM and Google follows anchors regardless of slide position.',
+ evidence:'Rendered DOM, 28 Sep 2026. /house-floor-plans/40*50-...-v5: section \u201cMore 40\u00d750 House Floor Plans\u201d visible=true, h2 visible=true, 49 links to /house-floor-plans/, 1 visible at a time, 224 anchors total with 166 visible. The largest genuinely hidden block on the page is a \u201cTalk to Our Expert\u201d modal form (44 words), plus a 7-word mobile footer nav and a 6-word duplicate spec strip.',
+ fix:'No action on the link module. If the carousel matters for users, that is a UX question, not an indexing one.'}
+,
 
 {section:'seo', group:'What actually renders', ref:'REN-03', src:'live', status:'warn', severity:'High',
  title:'A large text block on city pages is named for search and hidden from screen readers',
@@ -323,11 +324,12 @@ const SNAGS = [
  evidence:'GSC, 28 days to 24 Sep 2026, by page type. Blog: 2,421 URLs seen, 2,201,942 impressions (82.2%), 6,216 clicks. Floor plans: 1,396 URLs, 158,631 impressions (5.9%), 1,031 clicks. Construction-company city and locality: 326 URLs, 65,015 impressions (2.4%), 684 clicks. Homepage alone: 48,807 impressions, 2,052 clicks.',
  fix:'Weight the programme towards what already works. The audit\u2019s Tier E and F work \u2014 cost guides and decision guides on the blog template \u2014 sits on the cohort carrying 82% of impressions. Porting the blog pattern onto city pages (named author, dates, table of contents, data tables) moves the proven format onto the commercial pages rather than the reverse.'},
 
-{section:'seo', group:'Architecture and consolidation', ref:'ARC-08', src:'GSC 28d', status:'warn', severity:'Medium',
- title:'Floor-plan pages draw real traffic while a third of their content is hidden',
- why:'This cohort is the second largest source of impressions on the site, and it is the template with the worst rendering on the site. The hidden related-plans module is not a minor content issue on a dead page type \u2014 it is suppressing internal links across a cohort that Google already shows 158,631 times a month.',
- evidence:'GSC, 28 days to 24 Sep 2026: 1,396 floor-plan URLs seen, 158,631 impressions, 1,031 clicks, 231 URLs with 100+ impressions. Rendered-content ratio on the floor-plan template measured at 74.0% (REN-01), with a 737-word related-plans link module set to display:none (REN-02).',
- fix:'Raise REN-02 in priority. The fix is the same one already specified; what changes is that the cohort it affects is second only to the blog in impressions.'},
+{section:'seo', group:'Architecture and consolidation', ref:'ARC-08', src:'live+GSC', status:'warn', severity:'Medium',
+ title:'Some floor-plan page types carry no links to other floor plans at all',
+ why:'CORRECTED 28 Sep 2026. This was written as \u201ca third of their content is hidden, suppressing internal links\u201d. That was wrong \u2014 the hidden text is a modal form and a mobile nav, and the link module is visible. The real gap is the opposite: one floor-plan page type has no internal plan links whatsoever, and is thin besides. On a cohort drawing 158,631 impressions a month, that is a genuine linking gap, just not the one reported.',
+ evidence:'Rendered DOM, 28 Sep 2026. /house-floor-plans/30*40-sq-ft-house-plans: 580 visible prose words, 171 anchors of which 164 visible, and zero links matching /house-floor-plans/ \u2014 no related-plans module of any kind. By contrast /house-floor-plans/40*50-...-v5 carries 1,146 visible words and 49 plan links. GSC 28d: floor plans are 1,396 URLs, 158,631 impressions, 1,031 clicks.',
+ fix:'Work out which floor-plan page types lack the module and add it, rather than trying to un-hide something that is already visible. Start by confirming whether /house-floor-plans/<size>-sq-ft-house-plans and /house-floor-plans/area/<size> are separate templates.'}
+,
 
 {section:'aeo', group:'Answer extraction', ref:'ANS-08', src:'live', status:'warn', severity:'Medium',
  title:'Almost no FAQ question is also a visible heading',
