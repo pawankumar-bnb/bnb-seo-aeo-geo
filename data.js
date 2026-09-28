@@ -39,11 +39,11 @@ const SNAGS = [
  evidence:'12,460 entries in the main file, 2.5 MB, 114 lastmod values inside one second. Supplementary files 98.9–100% redundant: 2,918 duplicate submissions.',
  fix:'Split into a sitemap index segmented by template with accurate lastmod. Prerequisite for measuring the consolidation work.'},
 
-{section:'seo', group:'Architecture and consolidation', ref:'ARC-05', src:'—', status:'unknown', severity:'High',
- title:'How many pages Google has actually indexed',
- why:'Publishing 12,458 pages means nothing if Google accepted 3,000. On a programmatic site this size, the gap between submitted and indexed is usually the single most useful number available.',
- evidence:'Cannot be measured without Search Console access.',
- fix:'Grant Search Console access, then read coverage per segmented sitemap once ARC-04 ships.'},
+{section:'seo', group:'Architecture and consolidation', ref:'ARC-05', src:'GSC 28d', status:'fail', severity:'High',
+ title:'Roughly 3 in 5 published pages drew no impression at all',
+ why:'An impression proves a page is indexed, so counting pages that drew at least one gives a measured floor. That floor is 4,656 against 12,458 published \u2014 37 per cent. The other ~7,800 are either not indexed or indexed and never shown for any query, and those two need different fixes. Publishing at this scale is only worth the crawl budget if the pages surface.',
+ evidence:'GSC, 28 days to 24 Sep 2026: 4,656 distinct URLs drew at least one impression; 3,027 drew 10 or more; 1,789 drew 100 or more; 1,286 earned at least one click. Against 12,458 URLs enumerated from the sitemaps, that is a 37.4% floor on indexation and ~7,802 URLs unseen.',
+ fix:'Treat 4,656 as the measured floor, not the answer. Separating \u201cnot indexed\u201d from \u201cindexed but never surfaced\u201d needs the GSC Page Indexing report, which is not ingested into Metabase today (crawl section 9) \u2014 it is readable directly in Search Console now, and ingesting it is the single highest-value data gap. Segmented sitemaps (ARC-04) make it readable per template.'},
 
 /* ── SEO · On-page ──────────────────────────────────────────────────────── */
 {section:'seo', group:'On-page signals', ref:'ONP-01', src:'H6', status:'fail', severity:'High',
@@ -305,14 +305,25 @@ const SNAGS = [
  fix:'Correct the registry from the live city pages, or strike the hardcoded figures and leave only the instruction to fetch live. Do not change the site to match the registry. Package prices differ by city, so a single global figure was never going to hold.'},
 
 {section:'seo', group:'Architecture and consolidation', ref:'ARC-06', src:'GSC 28d', status:'fail', severity:'High',
- title:'The 2,474 locality pages are all but invisible in search',
- why:'The locality estate is the largest single block of pages on the site and it earns almost nothing. That settles an open question about where effort should go: these pages do not need hand optimisation, they need a template fix and then leaving alone. It also means template-level errors on them are cheap to fix and cost little while unfixed.',
- evidence:'GSC, 28 days to 20 Sep 2026. Of every /construction-company-* URL, only 12 cleared 200 impressions, and 10 of those are city pages. The best locality pages were /construction-company-valasaravakkam (913 impressions, 1 click) and /construction-company-anna-nagar (309, 0). Six of eight sampled Bengaluru locality pages recorded zero clicks; three Pune locality pages had no GSC rows at all.',
- fix:'Keep locality pages out of hand optimisation, as the original audit proposed. Fix them at the template and spend the hours on the ten city pages, which carry effectively all the impressions.'},
+ title:'Seven in eight locality pages were never seen in search',
+ why:'The locality estate is the largest single block of pages on the site and almost none of it surfaces. That settles where effort should go: these pages do not need hand optimisation, they need a template fix and then leaving alone. It also means template-level errors on them are cheap to fix and cost little while unfixed \u2014 which is why the BBMP error is urgent on the city page and not on the 2,000 locality pages beneath it.',
+ evidence:'GSC, 28 days to 24 Sep 2026. The city-area sitemap carries 2,474 URLs. Only 326 URLs matching /construction-company-* drew any impression, 22 drew 100 or more, and 28 earned any click. The whole family produced 65,015 impressions and 684 clicks \u2014 2.4% of site impressions and 6% of clicks \u2014 and the ten city pages account for most of that.',
+ fix:'Keep locality pages out of hand optimisation. Fix them at the template, then spend the hours on the ten city pages and the blog. Revisit only if segmented sitemaps show they are not indexed at all, which is a different problem from being indexed and unranked.'},
 
 {section:'seo', group:'On-page signals', ref:'ONP-07', src:'GSC 28d', status:'warn', severity:'High',
  title:'The Bengaluru city page converts impressions to clicks poorly',
  why:'This page is seen a great deal and clicked rarely. At position 7.7 a 0.5 per cent click rate is low, which usually points at the title and description rather than the ranking. It is also the page carrying the BBMP error, so it is the single highest-value page to work on.',
  evidence:'GSC, 28 days to 20 Sep 2026: 15,982 impressions, 84 clicks, CTR 0.53%, average position 7.7. For contrast /construction-company-delhi sits at position 4.2 with 4,479 impressions and 68 clicks, and /construction-company-pune at position 15.5.',
  fix:'Rewrite title and meta description for this page first and re-measure after 28 days. Treat CTR as the hypothesis, not a proven cause - position 7.7 is an average across many queries and can hide the real pattern.'},
+{section:'seo', group:'Architecture and consolidation', ref:'ARC-07', src:'GSC 28d', status:'pass', severity:'',
+ title:'The blog is not a supporting asset \u2014 it is the search business',
+ why:'Four fifths of everything Google shows for this site is blog content, and it earns more than half the clicks. The city and locality estate that most of the proposed programme is organised around produces 2.4% of impressions. This does not mean the city work is wrong \u2014 those pages carry the commercial intent \u2014 but it does mean the blog is the proven asset and should not be treated as the cheap tier.',
+ evidence:'GSC, 28 days to 24 Sep 2026, by page type. Blog: 2,421 URLs seen, 2,201,942 impressions (82.2%), 6,216 clicks. Floor plans: 1,396 URLs, 158,631 impressions (5.9%), 1,031 clicks. Construction-company city and locality: 326 URLs, 65,015 impressions (2.4%), 684 clicks. Homepage alone: 48,807 impressions, 2,052 clicks.',
+ fix:'Weight the programme towards what already works. The audit\u2019s Tier E and F work \u2014 cost guides and decision guides on the blog template \u2014 sits on the cohort carrying 82% of impressions. Porting the blog pattern onto city pages (named author, dates, table of contents, data tables) moves the proven format onto the commercial pages rather than the reverse.'},
+
+{section:'seo', group:'Architecture and consolidation', ref:'ARC-08', src:'GSC 28d', status:'warn', severity:'Medium',
+ title:'Floor-plan pages draw real traffic while a third of their content is hidden',
+ why:'This cohort is the second largest source of impressions on the site, and it is the template with the worst rendering on the site. The hidden related-plans module is not a minor content issue on a dead page type \u2014 it is suppressing internal links across a cohort that Google already shows 158,631 times a month.',
+ evidence:'GSC, 28 days to 24 Sep 2026: 1,396 floor-plan URLs seen, 158,631 impressions, 1,031 clicks, 231 URLs with 100+ impressions. Rendered-content ratio on the floor-plan template measured at 74.0% (REN-01), with a 737-word related-plans link module set to display:none (REN-02).',
+ fix:'Raise REN-02 in priority. The fix is the same one already specified; what changes is that the cohort it affects is second only to the blog in impressions.'},
 ];
