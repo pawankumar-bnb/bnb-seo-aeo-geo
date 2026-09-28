@@ -93,25 +93,11 @@ const SNAGS = [
 ,
 
 {section:'seo', group:'Content integrity', ref:'REN-03', src:'live', status:'fail', severity:'Critical',
- title:'City pages carry search-only text in boxes collapsed to a single pixel',
- why:'CONFIRMED 28 Sep 2026, and worse than first reported. These blocks are not merely hidden from screen readers. Each is rendered at 1x1 pixels AND marked aria-hidden, while display, visibility and opacity all read normal \u2014 so the text is in the DOM for a crawler and unreadable to every human. The class is named __seo and the content is question-and-answer copy. Text sized so only a crawler can read it is the textbook example of what Google treats as hidden text, and the naming makes intent hard to argue.',
- evidence:'Rendered DOM, 28 Sep 2026, /construction-company-bengaluru. Four .whyBnbCard__seo blocks sampled: 61, 88, 64 and 104 words, each getBoundingClientRect 1x1 px, each with aria-hidden=\"true\" on the element itself, display:block, visibility:visible, opacity:1. Content includes \u201cNo Cost Overruns \u2014 What if you\u2019re charged more than promised?\u201d and \u201cMoney Safety \u2014 How is my money safe?\u201d. About 1,539 words across the template.',
- fix:'Escalate this one. Decide with a named owner whether the copy should be visible \u2014 it is good copy and answers real objections \u2014 or removed. Do not leave it at 1x1. Of every finding in this survey it carries the clearest penalty risk.'}
+ title:'Every USP card carries a second, search-only copy at one pixel square',
+ why:'Located precisely 28 Sep 2026. In the \u201cWhy Brick&Bolt\u201d carousel, each card holds two versions of the same pitch. .whyBnbCard__content is shown to the reader at 298x176 px. Beside it .whyBnbCard__seo holds a longer question-and-answer version at 1x1 px with aria-hidden=\"true\" \u2014 a crawler reads it, nobody else can. Two copies of the same claim, one for people and a longer one for machines, is the shape Google describes as hidden text.',
+ evidence:'Rendered DOM, 28 Sep 2026. Path: section.section-usp > div.section-usp__desktop-only > div.container-whybnb > section.whyBnbDesktop > swiper carousel > div.whyBnbCard > div.whyBnbCard__seo. 19 blocks, 1,450 words per page. Identical on /construction-company-bengaluru, -hyderabad, -pune and the locality page /construction-company-whitefield. Absent from homepage, contractor, calculator and blog templates. Visible sibling reads \u201cGet 100% Accurate Quotes\u2026\u201d; the 1x1 sibling reads \u201cNo Cost Overruns \u2014 What if you\u2019re charged more than promised?\u2026\u201d',
+ fix:'Escalate. The copy is good and answers real objections \u2014 surface it as visible card content or an expandable panel, or delete it. Do not leave two versions with one sized for crawlers only. Scope is the city and locality templates, so roughly 2,480 URLs, though traffic sits almost entirely on the ten city pages.'}
 ,
-
-{section:'seo', group:'Server and performance', ref:'REN-04', src:'live', status:'warn', severity:'Low',
- title:'Most of the page weight is inline script and styling, not markup',
- why:'CORRECTED 28 Sep 2026. Reported as 0.77% text-to-HTML, implying near-empty pages. Measured against markup alone the figure is healthy: 7.8% on the homepage and 20.4% on the city page. Three quarters of the document is inline script and CSS, which is normal for an app of this kind. Text-to-HTML ratio is not a Google ranking factor, so treat this as page weight and speed, not SEO.',
- evidence:'Rendered DOM, 28 Sep 2026. Homepage: 13,101 visible text characters, 624,717 byte DOM, of which 305,229 inline script and 150,872 inline style \u2014 2.1% against the whole document, 7.77% against markup only. City page: 39,540 chars, 871,943 bytes, 429,923 script, 248,240 style \u2014 4.53% and 20.4%.',
- fix:'Fold into performance work rather than SEO. Moving inline script and style to cacheable external files helps repeat visits; it will not move rankings.'}
-,
-
-/* ── SEO · Technical ────────────────────────────────────────────────────── */
-{section:'seo', group:'Server and performance', ref:'TEC-01', src:'H3', status:'fail', severity:'High',
- title:'None of the nine standard security headers are set',
- why:'No direct ranking effect — but it is basic hygiene any technical reviewer or enterprise client will check, and it is roughly an hour of configuration. The server also announces its exact version, which tells anyone scanning what to target.',
- evidence:'0 of 9 present: HSTS, CSP, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy and the three cross-origin policies. Response header reads nginx/1.18.0 (Ubuntu).',
- fix:'Add at the server or edge layer and suppress the version token. Verify with a free securityheaders.com scan — F should become B or better.'},
 
 {section:'seo', group:'Server and performance', ref:'TEC-02', src:'M8', status:'fail', severity:'Medium',
  title:'Older compression and connection protocol',
@@ -239,11 +225,12 @@ const SNAGS = [
  evidence:'Not measured in this survey. Brick&Bolt is absent from several such lists; where present, one entry carries a qualifier about project delays.',
  fix:'Identify which lists each engine actually draws on, then work to be included and ranked within them with accurate current figures.'},
 
-{section:'aeo', group:'Earned placement and monitoring', ref:'OFF-02', src:'Tier B', status:'unknown', severity:'High',
+{section:'aeo', group:'Earned placement and monitoring', ref:'OFF-02', src:'\u2014', status:'unknown', severity:'High',
  title:'What engines say when asked about Brick&Bolt directly',
- why:'Public review platforms disagree sharply with one another and some prominent results are hostile. This is downstream of delivery — content can document and clarify, it cannot manufacture sentiment.',
- evidence:'Not re-measured here. Baseline figures in the existing target sheet were recorded by a third party with no stated method or date.',
- fix:'Re-establish first-hand with dated evidence before any content decision depends on it. Make the documented outcomes, warranties and resolutions the most machine-readable material available.'},
+ why:'Public review platforms disagree sharply and some prominent results are hostile. Nobody currently has a dated record of what ChatGPT, AI Overviews or Perplexity actually answer, so there is no way to tell improvement from noise later. This is also downstream of delivery: content can document and clarify, it cannot manufacture sentiment.',
+ evidence:'Not measured. AI answers vary by session, account, geography and model version, so a single observation proves little and no automated figure should be taken at face value. The earlier baseline in the target sheet was recorded by a third party with no stated method or date.',
+ fix:'Run a fixed protocol monthly rather than buying a number. Same 8 prompts, logged out, fresh session, stated city, three runs each, same week of the month. For every run record: does the brand appear, is it cited with a link, which other sources are cited, and the sentiment in one line \u2014 with a screenshot. The cited sources are the actionable output: those pages, not the engine, are what to work on. Report the spread across the three runs, never a single figure.'}
+,
 
 {section:'aeo', group:'Earned placement and monitoring', ref:'OFF-03', src:'—', status:'unknown', severity:'High',
  title:'No dated baseline of what each engine answers today',
