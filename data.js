@@ -77,11 +77,12 @@ const SNAGS = [
  fix:'Extend BreadcrumbList to all non-root templates.'},
 
 /* ── SEO · Rendering ────────────────────────────────────────────────────── */
-{section:'seo', group:'What actually renders', ref:'REN-01', src:'H7', status:'fail', severity:'High',
- title:'Up to a third of page text never appears on screen',
- why:'Text switched off in the styling is text Google discounts. Two templates are healthy; two are not. The work is bringing the weak ones up to the standard your own city and contractor pages already meet.',
- evidence:'Measured against computed styles: homepage 69.7%, city 68.0%, blog 54.2%, floor plan 74.0%, calculator 80.7%. Contractor template 96.5%.',
- fix:'Render the hidden blocks. Target above 90%, which the contractor template already achieves.'},
+{section:'seo', group:'What actually renders', ref:'REN-01', src:'live', status:'warn', severity:'Medium',
+ title:'Two templates hide real prose; the rest were a measurement error',
+ why:'CORRECTED 28 Sep 2026. Earlier figures counted collapsed accordion content as hidden, which understated three templates badly \u2014 the city page read 68% when it is actually 97%. After separating reachable disclosure content from genuinely hidden text, only the blog and floor-plan templates have a real problem, and the blog\u2019s is mostly a benign country-code dropdown.',
+ evidence:'Rendered DOM against computed styles, 28 Sep 2026, disclosure content excluded: city 97.0%, contractor 96.5%, calculator 88.9%, homepage 73.3%, floor plan 74.0%, blog 54.3%. Genuinely hidden prose: blog 1,340 words, calculator 717, homepage 710, floor plan 404, city 193.',
+ fix:'Look at the floor-plan template (REN-02) and the homepage. Leave the city and contractor templates alone \u2014 they were never the problem.'}
+,
 
 {section:'seo', group:'What actually renders', ref:'REN-02', src:'H7', status:'fail', severity:'High',
  title:'A block of internal links is hidden on floor-plan pages',
@@ -145,11 +146,12 @@ const SNAGS = [
  fix:'No action.'},
 
 /* ── AEO · Answer extraction ────────────────────────────────────────────── */
-{section:'aeo', group:'Answer extraction', ref:'ANS-01', src:'C3', status:'fail', severity:'Critical',
- title:'Declared FAQ answers do not appear on the page',
- why:'The site tells Google it has questions and answers. On the page, none of the answers render — they are switched off in the styling. Telling search engines about content visitors cannot see breaches Google policy, and it leaves answer engines with nothing to quote.',
- evidence:'Homepage: 16 pairs declared, 4 questions render, 0 answers. City page: 10 declared, 0 answers. Cost calculator: 15 declared, 1 answer. No declared question appears as a visible heading anywhere.',
- fix:'Two separate fixes. The homepage hides answers with visibility:hidden and display:none. The city and calculator templates use opacity:0 — a different mechanism, so fixing the homepage will not fix those. Rebuilding on details/summary is cleanest.'},
+{section:'aeo', group:'Answer extraction', ref:'ANS-01', src:'live', status:'pass', severity:'',
+ title:'Declared FAQ answers are all present and reachable',
+ why:'CORRECTED 28 Sep 2026. This was previously reported as a critical policy breach \u2014 by this survey and by the original Adexorb audit \u2014 on the basis that the answers did not render. They do. The homepage FAQ is an ordinary accordion: clicking a question flips it from visibility:hidden to visible, and Load More reveals the remaining twelve. Google indexes accordion content and permits it in FAQ rich results, so there is no violation and no risk to rich results here.',
+ evidence:'Rendered DOM with interaction, 28 Sep 2026. All 41 declared answers across the three FAQ templates are present in the DOM. Clicking question 1 on the homepage: visibility hidden to visible, opacity 0 to 1, grid rows 0px to 51.19px. Load More cleared the hidden attribute from all 12 remaining items. The city page opens all 10 of its answers at load; the calculator opens 14 of 15.',
+ fix:'No action. The earlier finding was a measurement error: the audit tool judged the page at rest and counted collapsed accordion content as hidden. Fixed in lib/probe.mjs by classifying disclosure content as reachable rather than hidden.'}
+,
 
 {section:'aeo', group:'Answer extraction', ref:'ANS-02', src:'A2', status:'fail', severity:'High',
  title:'No short quotable answer near the top of the page',
@@ -326,4 +328,16 @@ const SNAGS = [
  why:'This cohort is the second largest source of impressions on the site, and it is the template with the worst rendering on the site. The hidden related-plans module is not a minor content issue on a dead page type \u2014 it is suppressing internal links across a cohort that Google already shows 158,631 times a month.',
  evidence:'GSC, 28 days to 24 Sep 2026: 1,396 floor-plan URLs seen, 158,631 impressions, 1,031 clicks, 231 URLs with 100+ impressions. Rendered-content ratio on the floor-plan template measured at 74.0% (REN-01), with a 737-word related-plans link module set to display:none (REN-02).',
  fix:'Raise REN-02 in priority. The fix is the same one already specified; what changes is that the cohort it affects is second only to the blog in impressions.'},
+
+{section:'aeo', group:'Answer extraction', ref:'ANS-08', src:'live', status:'warn', severity:'Medium',
+ title:'Almost no FAQ question is also a visible heading',
+ why:'This is what actually survives from the FAQ finding. The answers are fine; the questions are not marked up as headings, so an extractor scanning heading structure for a question to match sees almost nothing. It is the difference between content being present and content being addressable.',
+ evidence:'Rendered DOM, 28 Sep 2026: 4 of 41 declared questions appear as a visible heading element across the three FAQ templates. On the homepage all 16 questions render as text but 0 are headings.',
+ fix:'Mark FAQ questions as h3 elements. It changes no copy and no layout, and it is what lets an engine match a query to a section rather than to a page.'},
+
+{section:'aeo', group:'Answer extraction', ref:'ANS-09', src:'live', status:'warn', severity:'Low',
+ title:'The homepage FAQ opens with every answer collapsed',
+ why:'Not a compliance problem \u2014 Google reads collapsed content. But an extractor that does not click, and a visitor who does not either, sees no answer on screen. The city page and calculator already open theirs, so the pattern to copy is on the site.',
+ evidence:'Rendered DOM, 28 Sep 2026: homepage 0 of 16 answers expanded at load; city page 10 of 10 expanded; cost calculator 14 of 15.',
+ fix:'Open the highest-intent item by default, as the city template already does. One attribute.'},
 ];
