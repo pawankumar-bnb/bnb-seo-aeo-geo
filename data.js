@@ -344,6 +344,6 @@ const SNAGS = [
 {section:"seo", group:"Server and performance", ref:"TEC-01", src:"H3", status:"fail", severity:"High",
  title:"None of the nine standard security headers are set",
  why:"No direct ranking effect — but it is basic hygiene any technical reviewer or enterprise client will check, and it is roughly an hour of configuration. The server also announces its exact version, which tells anyone scanning what to target.",
- evidence:"0 of 9 present: HSTS, CSP, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy and the three cross-origin policies. Response header reads nginx/1.18.0 (Ubuntu).",
+ evidence:"Re-verified 28 Sep 2026 on three page types — homepage, /construction-company-bengaluru and a blog article. 0 of 9 present on every one: HSTS, CSP, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy and the three cross-origin policies. Two further headers disclose the stack: server: nginx/1.18.0 (Ubuntu) and x-powered-by: Next.js. nginx 1.18.0 dates from April 2020.",
  fix:"Add at the server or edge layer and suppress the version token. Verify with a free securityheaders.com scan — F should become B or better."},
 ];
